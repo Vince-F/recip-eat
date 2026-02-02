@@ -3,6 +3,7 @@ import { ReceipesList } from "./components/receipesList/ReceipesList";
 import type { Recipe } from "./models/recipe";
 import { RecipeView } from "./components/recipeView/RecipeView";
 import { RecipeForm } from "./components/recipeForm/RecipeForm";
+import { appBaseUrl } from "./constants";
 
 export const router = createBrowserRouter([
   {
@@ -44,4 +45,4 @@ export const router = createBrowserRouter([
     path: "/create-recipe",
     Component: RecipeForm,
   },
-]);
+], { basename: appBaseUrl });

@@ -8,5 +8,6 @@ export default defineConfig({
   base: "./",
   server: {
     host: true,
+    open: "/recip-eat/",
   },
 });
