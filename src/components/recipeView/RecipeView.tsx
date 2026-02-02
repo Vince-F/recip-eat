@@ -20,12 +20,16 @@ import { getIngredientById } from "../../services/ingredientsHelper";
 import type { QuantityType } from "../../models/quantityType";
 
 interface ReceipeViewProps {
-  recipe: Recipe;
+  recipe: Recipe | undefined;
 }
 
 export function RecipeView({ recipe }: ReceipeViewProps) {
   const [menuButton, setMenuButton] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+
+  if (!recipe) {
+    return <div>This recipe doesn't exist!</div>;
+  }
 
   const steps = (recipe.steps ?? []).map((step, index) => (
     <li key={index}>{step}</li>
