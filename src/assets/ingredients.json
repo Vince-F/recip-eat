@@ -1,0 +1,50 @@
+[
+  {
+    "id": "9d7290e4-d437-478b-bec4-9b2af4180cb6",
+    "key": "ingredient.tomato",
+    "image": "",
+    "quantityType": "UNIT"
+  },
+  {
+    "id": "d2ba352d-9018-4200-aa29-4421027abbbd",
+    "key": "ingredient.onion",
+    "image": "",
+    "quantityType": "UNIT"
+  },
+  {
+    "id": "3c9d3770-6136-42d1-9d7c-cfcbad43ad69",
+    "key": "ingredient.garlic",
+    "image": "",
+    "quantityType": "UNIT"
+  },
+  {
+    "id": "aa2729bf-9436-4d63-8591-8827e7fe9760",
+    "key": "ingredient.olive_oil",
+    "image": "",
+    "quantityType": "VOLUME"
+  },
+  {
+    "id": "c74bfdfb-89e1-4712-a0b6-a0e79b6da59f",
+    "key": "ingredient.salt",
+    "image": "",
+    "quantityType": "WEIGHT"
+  },
+  {
+    "id": "18ee5c3c-16c8-4cd8-94ea-12c81e4f9a25",
+    "key": "ingredient.pepper",
+    "image": "",
+    "quantityType": "WEIGHT"
+  },
+  {
+    "id": "0d948155-bfbe-4223-8f4e-e96580dd5ffb",
+    "key": "ingredient.milk",
+    "image": "",
+    "quantityType": "VOLUME"
+  },
+  {
+    "id": "f4e1d2b3-E3b5-4c6c-8f7a-9d6e2c3b4a5f",
+    "key": "ingredient.flour",
+    "image": "",
+    "quantityType": "WEIGHT"
+  }
+]
