@@ -58,13 +58,17 @@ export function addItem<T>(storeName: string, item: T): Promise<void> {
   if (!dbInstance) {
     return Promise.reject("Database is not opened");
   }
-  const transaction = dbInstance.transaction(storeName, "readwrite");
+  const transaction = dbInstance.transaction([storeName], "readwrite");
   return new Promise<void>((resolve, reject) => {
     transaction.onerror = () => {
       reject(transaction.error?.message);
     };
+    transaction.oncomplete = () => {
+      resolve();
+    };
     const objectStore = transaction.objectStore(storeName);
     const request = objectStore.add(item);
+    
     request.onerror = () => {
       reject(request.error?.message);
     };

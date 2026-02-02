@@ -115,7 +115,7 @@ export function RecipeForm() {
     }
   }
 
-  function createRecipe() {
+  async function createRecipe() {
     const newRecipe = {
       id: uuidv4(),
       title: name,
@@ -125,7 +125,7 @@ export function RecipeForm() {
       ingredients: ingredients,
       steps: steps,
     };
-    dispatch(addRecipe(newRecipe));
+    await dispatch(addRecipe(newRecipe));
     navigate("/");
   }
 
