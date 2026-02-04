@@ -20,23 +20,23 @@ export default defineConfig({
       theme_color: "#ffffff", /* TODO: Update theme color */
       icons:[
         {
-          src:"/logos/512x512.png",
+          src:"./logos/512x512.png",
           sizes:"512x512",
           type:"image/png"
         },
         {
-          src:"/logos/192x192.png",
+          src:"./logos/192x192.png",
           sizes:"192x192",
           type:"image/png"
         },
         {
-          src:"/logos/512x512.png",
+          src:"./logos/512x512.png",
           sizes:"512x512",
           type:"image/png",
           purpose: "any"
         },
         {
-          src:"/logos/512x512.png",
+          src:"./logos/512x512.png",
           sizes:"512x512",
           type:"image/png",
           purpose: "maskable"
