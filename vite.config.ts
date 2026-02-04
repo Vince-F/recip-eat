@@ -15,6 +15,8 @@ export default defineConfig({
       name: "Recip'eat",
       short_name: "Recip'eat",
       description: "A recipe management application",
+      display: "standalone",
+      start_url: "https://vince-f.github.io/recip-eat/",
       theme_color: "#ffffff", /* TODO: Update theme color */
       icons:[
         {
