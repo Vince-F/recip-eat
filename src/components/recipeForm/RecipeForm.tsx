@@ -33,11 +33,14 @@ export function RecipeForm() {
   >([]);
   const [steps, setSteps] = useState<string[]>([]);
   const [ nameError, setNameError ] = useState<string | null>(null);
+  const [ ingredientsError, setIngredientsError ] = useState<Array<string | null>>([]);
+  const [ ingredientsQuantityError, setIngredientsQuantityError ] = useState<Array<string | null>>([]);
+  const [ stepsErrors, setStepsErrors ] = useState<Array<string | null>>([]);
   const [ errorMessage, setErrorMessage ] = useState<string>("");
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const errorBannerRef = useRef<HTMLDivElement | null>(null);
   const ingredientsInputsRef = useRef<Array<HTMLInputElement | null>>([]);
-  const ingredientsQuantityInputsRef = useRef<Array<HTMLInputElement | null>>([]);
+  const ingredientsQuantityAnchorRef = useRef<Array<HTMLAnchorElement | null>>([]);
   const stepsInputsRef = useRef<Array<HTMLInputElement | null>>([]);
 
   const navigate = useNavigate();
@@ -53,6 +56,8 @@ export function RecipeForm() {
           multiline
           fullWidth
           inputRef={el => { stepsInputsRef.current[index] = el; }}
+          error={!!stepsErrors[index]}
+          helperText={stepsErrors[index] ?? ""}
           onChange={(event) => {
             const updatedSteps = [...steps];
             updatedSteps[index] = event.target.value;
@@ -87,20 +92,24 @@ export function RecipeForm() {
           getOptionLabel={(option) => option.key}
           getOptionKey={(option) => option.id}
           renderInput={(params) => 
-            <TextField required {...params} label="Ingredient" inputRef={el => { ingredientsInputsRef.current[index] = el; }} />}
-          onChange={(_event, newValue) =>
-            updateSelectedIngredient(index, newValue)
-          }
+            <TextField required {...params} label="Ingredient" error={!!ingredientsError[index]} helperText={ingredientsError[index] ?? ""}
+              inputRef={el => { ingredientsInputsRef.current[index] = el; }} />}
+              onChange={(_event, newValue) =>
+                updateSelectedIngredient(index, newValue)
+              }
         />
+        {/* it's a bit hacky to focus just before the NumberSpinner but so far I have not found a simple way to focus the input */}
+        <a className="sr-only" tabIndex={-1} ref={el => { ingredientsQuantityAnchorRef.current[index] = el; }} />
         <NumberSpinner
           label={`Quantity${getUnit(selectedIngredient?.quantityType)}`}
           value={ingredientEntry.quantity}
           min={0}
-          inputRef={el => { ingredientsQuantityInputsRef.current[index] = el; }}
+          error={!!ingredientsQuantityError[index]}
           onValueChange={(value) => {
             updateSelectedIngredientQuantity(index, value ?? 0);
           }}
         />
+        {ingredientsQuantityError[index] && <p className="text-xs text-red-500">{ingredientsQuantityError[index]}</p>}
       </li>
     );
   });
@@ -125,7 +134,7 @@ export function RecipeForm() {
       ingredients.slice(0, index).concat(ingredients.slice(index + 1)),
     );
     ingredientsInputsRef.current.splice(index, 1);
-    ingredientsQuantityInputsRef.current.splice(index, 1);
+    ingredientsQuantityAnchorRef.current.splice(index, 1);
   }
 
   function removeStep(index: number) {
@@ -165,6 +174,36 @@ export function RecipeForm() {
       return false;
     }
     setErrorMessage("");
+    for(let i = 0; i < ingredients.length; i++) {
+      const ingredient = ingredients[i];
+      if (ingredient.ingredientId.trim() === "") {
+        const ingredientErrors = new Array(ingredients.length).fill(null);
+        ingredientErrors[i] = "You must select an ingredient. Delete his ingredient entry if you don't want to use it.";
+        setIngredientsError(ingredientErrors);
+        ingredientsInputsRef.current[i]?.focus();
+        return false;
+      }
+      if (ingredient.quantity <= 0) {
+        const quantityErrors = new Array(ingredients.length).fill(null);
+        quantityErrors[i] = "Quantity must be greater than 0. Delete his ingredient entry if you don't want to use it.";
+        setIngredientsQuantityError(quantityErrors);
+        ingredientsQuantityAnchorRef.current[i]?.focus();
+        return false;
+      }
+    }
+    setIngredientsError(new Array(ingredients.length).fill(null));
+    setIngredientsQuantityError(new Array(ingredients.length).fill(null));
+    for(let i = 0; i < steps.length; i++) {
+      const step = steps[i];
+      if (step.trim() === "") {
+        const stepErrors = new Array(steps.length).fill(null);
+        stepErrors[i] = "Step description is required. Delete this step if you don't want to use it.";
+        setStepsErrors(stepErrors);
+        stepsInputsRef.current[i]?.focus();
+        return false;
+      }
+    }
+    setStepsErrors(new Array(steps.length).fill(null));
     return true;
   }
 
