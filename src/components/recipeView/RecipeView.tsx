@@ -28,7 +28,26 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
   const navigate = useNavigate();
 
   if (!recipe) {
-    return <div>This recipe doesn't exist!</div>;
+    return (
+      <div>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              aria-label="Back to recipe list"
+              onClick={goBackToRecipeList}
+            >
+              <ArrowBack />
+            </IconButton>
+            <Typography variant="h6" component="h1" className="flex-1">
+              Recipe not found
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <div className="p-2">
+          This recipe doesn't exist!
+        </div>
+      </div>
+    );
   }
 
   const steps = (recipe.steps ?? []).map((step, index) => (
