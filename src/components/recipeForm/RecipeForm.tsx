@@ -64,7 +64,7 @@ export function RecipeForm() {
             setSteps(updatedSteps);
           }}
         />
-        <IconButton onClick={() => removeStep(index)}>
+        <IconButton aria-label={`Delete step ${index + 1}`} onClick={() => removeStep(index)}>
           <Delete />
         </IconButton>
       </div>
@@ -77,39 +77,42 @@ export function RecipeForm() {
     return (
       <li
         key={ingredientEntry.ingredientId + "_" + index}
-        className="flex gap-2 flex-col"
       >
-        <div className="flex justify-between items-center">
-          <h3>Ingredient {index + 1}</h3>
-          <IconButton onClick={() => removeIngredient(index)}>
-            <Delete />
-          </IconButton>
-        </div>
+        <fieldset className="flex gap-4 flex-col">
+          <legend aria-labelledby={`ingredientTitle${index}`}>
+          </legend>
+          <div className="flex justify-between items-center">
+            <h3 id={`ingredientTitle${index}`}>Ingredient {index + 1}</h3>
+            <IconButton aria-label={`Delete ingredient ${index + 1}`} onClick={() => removeIngredient(index)}>
+              <Delete />
+            </IconButton>
+          </div>
 
-        <Autocomplete
-          value={selectedIngredient}
-          options={allIngredients}
-          getOptionLabel={(option) => option.key}
-          getOptionKey={(option) => option.id}
-          renderInput={(params) => 
-            <TextField required {...params} label="Ingredient" error={!!ingredientsError[index]} helperText={ingredientsError[index] ?? ""}
-              inputRef={el => { ingredientsInputsRef.current[index] = el; }} />}
-              onChange={(_event, newValue) =>
-                updateSelectedIngredient(index, newValue)
-              }
-        />
-        {/* it's a bit hacky to focus just before the NumberSpinner but so far I have not found a simple way to focus the input */}
-        <a className="sr-only" tabIndex={-1} ref={el => { ingredientsQuantityAnchorRef.current[index] = el; }} />
-        <NumberSpinner
-          label={`Quantity${getUnit(selectedIngredient?.quantityType)}`}
-          value={ingredientEntry.quantity}
-          min={0}
-          error={!!ingredientsQuantityError[index]}
-          onValueChange={(value) => {
-            updateSelectedIngredientQuantity(index, value ?? 0);
-          }}
-        />
-        {ingredientsQuantityError[index] && <p className="text-xs text-red-500">{ingredientsQuantityError[index]}</p>}
+          <Autocomplete
+            value={selectedIngredient}
+            options={allIngredients}
+            getOptionLabel={(option) => option.key}
+            getOptionKey={(option) => option.id}
+            renderInput={(params) => 
+              <TextField required {...params} label="Ingredient" error={!!ingredientsError[index]} helperText={ingredientsError[index] ?? ""}
+                inputRef={el => { ingredientsInputsRef.current[index] = el; }} />}
+                onChange={(_event, newValue) =>
+                  updateSelectedIngredient(index, newValue)
+                }
+          />
+          {/* it's a bit hacky to focus just before the NumberSpinner but so far I have not found a simple way to focus the input */}
+          <a className="sr-only" tabIndex={-1} ref={el => { ingredientsQuantityAnchorRef.current[index] = el; }} />
+          <NumberSpinner
+            label={`Quantity${getUnit(selectedIngredient?.quantityType)}`}
+            value={ingredientEntry.quantity}
+            min={0}
+            error={!!ingredientsQuantityError[index]}
+            onValueChange={(value) => {
+              updateSelectedIngredientQuantity(index, value ?? 0);
+            }}
+          />
+          {ingredientsQuantityError[index] && <p className="text-xs text-red-500">{ingredientsQuantityError[index]}</p>}
+        </fieldset>
       </li>
     );
   });
