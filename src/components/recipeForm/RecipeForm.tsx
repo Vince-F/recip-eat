@@ -32,15 +32,21 @@ export function RecipeForm() {
     Array<{ ingredientId: string; quantity: number }>
   >([]);
   const [steps, setSteps] = useState<string[]>([]);
-  const [ nameError, setNameError ] = useState<string | null>(null);
-  const [ ingredientsError, setIngredientsError ] = useState<Array<string | null>>([]);
-  const [ ingredientsQuantityError, setIngredientsQuantityError ] = useState<Array<string | null>>([]);
-  const [ stepsErrors, setStepsErrors ] = useState<Array<string | null>>([]);
-  const [ errorMessage, setErrorMessage ] = useState<string>("");
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [ingredientsError, setIngredientsError] = useState<
+    Array<string | null>
+  >([]);
+  const [ingredientsQuantityError, setIngredientsQuantityError] = useState<
+    Array<string | null>
+  >([]);
+  const [stepsErrors, setStepsErrors] = useState<Array<string | null>>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const errorBannerRef = useRef<HTMLDivElement | null>(null);
   const ingredientsInputsRef = useRef<Array<HTMLInputElement | null>>([]);
-  const ingredientsQuantityAnchorRef = useRef<Array<HTMLAnchorElement | null>>([]);
+  const ingredientsQuantityAnchorRef = useRef<Array<HTMLAnchorElement | null>>(
+    [],
+  );
   const stepsInputsRef = useRef<Array<HTMLInputElement | null>>([]);
 
   const navigate = useNavigate();
@@ -55,7 +61,9 @@ export function RecipeForm() {
           required
           multiline
           fullWidth
-          inputRef={el => { stepsInputsRef.current[index] = el; }}
+          inputRef={(el) => {
+            stepsInputsRef.current[index] = el;
+          }}
           error={!!stepsErrors[index]}
           helperText={stepsErrors[index] ?? ""}
           onChange={(event) => {
@@ -64,7 +72,10 @@ export function RecipeForm() {
             setSteps(updatedSteps);
           }}
         />
-        <IconButton aria-label={`Delete step ${index + 1}`} onClick={() => removeStep(index)}>
+        <IconButton
+          aria-label={`Delete step ${index + 1}`}
+          onClick={() => removeStep(index)}
+        >
           <Delete />
         </IconButton>
       </div>
@@ -75,15 +86,15 @@ export function RecipeForm() {
     const selectedIngredient =
       getIngredientById(ingredientEntry.ingredientId) ?? null;
     return (
-      <li
-        key={ingredientEntry.ingredientId + "_" + index}
-      >
+      <li key={ingredientEntry.ingredientId + "_" + index}>
         <fieldset className="flex gap-4 flex-col">
-          <legend aria-labelledby={`ingredientTitle${index}`}>
-          </legend>
+          <legend aria-labelledby={`ingredientTitle${index}`}></legend>
           <div className="flex justify-between items-center">
             <h3 id={`ingredientTitle${index}`}>Ingredient {index + 1}</h3>
-            <IconButton aria-label={`Delete ingredient ${index + 1}`} onClick={() => removeIngredient(index)}>
+            <IconButton
+              aria-label={`Delete ingredient ${index + 1}`}
+              onClick={() => removeIngredient(index)}
+            >
               <Delete />
             </IconButton>
           </div>
@@ -93,15 +104,30 @@ export function RecipeForm() {
             options={allIngredients}
             getOptionLabel={(option) => option.key}
             getOptionKey={(option) => option.id}
-            renderInput={(params) => 
-              <TextField required {...params} label="Ingredient" error={!!ingredientsError[index]} helperText={ingredientsError[index] ?? ""}
-                inputRef={el => { ingredientsInputsRef.current[index] = el; }} />}
-                onChange={(_event, newValue) =>
-                  updateSelectedIngredient(index, newValue)
-                }
+            renderInput={(params) => (
+              <TextField
+                required
+                {...params}
+                label="Ingredient"
+                error={!!ingredientsError[index]}
+                helperText={ingredientsError[index] ?? ""}
+                inputRef={(el) => {
+                  ingredientsInputsRef.current[index] = el;
+                }}
+              />
+            )}
+            onChange={(_event, newValue) =>
+              updateSelectedIngredient(index, newValue)
+            }
           />
           {/* it's a bit hacky to focus just before the NumberSpinner but so far I have not found a simple way to focus the input */}
-          <a className="sr-only" tabIndex={-1} ref={el => { ingredientsQuantityAnchorRef.current[index] = el; }} />
+          <a
+            className="sr-only"
+            tabIndex={-1}
+            ref={(el) => {
+              ingredientsQuantityAnchorRef.current[index] = el;
+            }}
+          />
           <NumberSpinner
             label={`Quantity${getUnit(selectedIngredient?.quantityType)}`}
             value={ingredientEntry.quantity}
@@ -111,7 +137,11 @@ export function RecipeForm() {
               updateSelectedIngredientQuantity(index, value ?? 0);
             }}
           />
-          {ingredientsQuantityError[index] && <p className="text-xs text-red-500">{ingredientsQuantityError[index]}</p>}
+          {ingredientsQuantityError[index] && (
+            <p className="text-xs text-red-500">
+              {ingredientsQuantityError[index]}
+            </p>
+          )}
         </fieldset>
       </li>
     );
@@ -141,9 +171,7 @@ export function RecipeForm() {
   }
 
   function removeStep(index: number) {
-    setSteps(
-      steps.slice(0, index).concat(steps.slice(index + 1)),
-    );
+    setSteps(steps.slice(0, index).concat(steps.slice(index + 1)));
     stepsInputsRef.current.splice(index, 1);
   }
 
@@ -177,18 +205,20 @@ export function RecipeForm() {
       return false;
     }
     setErrorMessage("");
-    for(let i = 0; i < ingredients.length; i++) {
+    for (let i = 0; i < ingredients.length; i++) {
       const ingredient = ingredients[i];
       if (ingredient.ingredientId.trim() === "") {
         const ingredientErrors = new Array(ingredients.length).fill(null);
-        ingredientErrors[i] = "You must select an ingredient. Delete his ingredient entry if you don't want to use it.";
+        ingredientErrors[i] =
+          "You must select an ingredient. Delete his ingredient entry if you don't want to use it.";
         setIngredientsError(ingredientErrors);
         ingredientsInputsRef.current[i]?.focus();
         return false;
       }
       if (ingredient.quantity <= 0) {
         const quantityErrors = new Array(ingredients.length).fill(null);
-        quantityErrors[i] = "Quantity must be greater than 0. Delete his ingredient entry if you don't want to use it.";
+        quantityErrors[i] =
+          "Quantity must be greater than 0. Delete his ingredient entry if you don't want to use it.";
         setIngredientsQuantityError(quantityErrors);
         ingredientsQuantityAnchorRef.current[i]?.focus();
         return false;
@@ -196,11 +226,12 @@ export function RecipeForm() {
     }
     setIngredientsError(new Array(ingredients.length).fill(null));
     setIngredientsQuantityError(new Array(ingredients.length).fill(null));
-    for(let i = 0; i < steps.length; i++) {
+    for (let i = 0; i < steps.length; i++) {
       const step = steps[i];
       if (step.trim() === "") {
         const stepErrors = new Array(steps.length).fill(null);
-        stepErrors[i] = "Step description is required. Delete this step if you don't want to use it.";
+        stepErrors[i] =
+          "Step description is required. Delete this step if you don't want to use it.";
         setStepsErrors(stepErrors);
         stepsInputsRef.current[i]?.focus();
         return false;
@@ -247,8 +278,14 @@ export function RecipeForm() {
         </Toolbar>
       </AppBar>
       <form autoComplete="off">
-        { errorMessage.length > 0 && <Alert tabIndex={-1} ref={errorBannerRef} severity="error">{errorMessage}</Alert> }
-        <p className="pt-2 text-right text-xs text-gray-400">*: indicates required field</p>
+        {errorMessage.length > 0 && (
+          <Alert tabIndex={-1} ref={errorBannerRef} severity="error">
+            {errorMessage}
+          </Alert>
+        )}
+        <p className="pt-2 text-right text-xs text-gray-400">
+          *: indicates required field
+        </p>
         <div className="p-4">
           <TextField
             required
@@ -286,8 +323,10 @@ export function RecipeForm() {
               Ingredients
             </Typography>
           </legend>
-          
-          <p className="text-right text-xs text-gray-400">You need at least one ingredient</p>
+
+          <p className="text-right text-xs text-gray-400">
+            You need at least one ingredient
+          </p>
           <div className="m-4">
             <ul className="list-none mb-4">{ingredientFields}</ul>
             <Button
@@ -312,7 +351,9 @@ export function RecipeForm() {
               Steps
             </Typography>
           </legend>
-          <p className="text-right text-xs text-gray-400">You need at least one step</p>
+          <p className="text-right text-xs text-gray-400">
+            You need at least one step
+          </p>
           <div className="m-4">
             {stepFields}
             <Button variant="outlined" onClick={() => setSteps([...steps, ""])}>
