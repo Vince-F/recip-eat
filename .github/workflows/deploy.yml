@@ -30,7 +30,7 @@ jobs:
         uses: actions/configure-pages@v5
       - uses: actions/setup-node@v6
         with:
-          node-version: '24'
+          node-version: "24"
       - name: install dependencies # TODO should consider caching
         run: npm ci
       - name: build app
@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: './dist'
+          path: "./dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
