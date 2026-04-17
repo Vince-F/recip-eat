@@ -2,12 +2,17 @@ import { AppBar, Fab, List, Toolbar, Typography } from "@mui/material";
 import { RecipeListEntry } from "./RecipeListEntry";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { retrieveRecipes, selectNeedsLoading, selectRecipes } from "../../stores/recipeSlice";
+import {
+  retrieveRecipes,
+  selectNeedsLoading,
+  selectRecipes,
+} from "../../stores/recipeSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
+// import type { Recipe } from "../../models/recipe";
 
 /* test data */
 /*
-const recipes: RecipeOverview[] = [
+const recipes: Recipe[] = [
   {
     id: "1",
     title: "Spaghetti Bolognese",
@@ -54,8 +59,14 @@ export function ReceipesList() {
           </Typography>
         </Toolbar>
       </AppBar>
-      
-      <List>{recipesEntries.length === 0 ? (<div>No recipe yet</div>) : recipesEntries}</List>
+
+      <List>
+        {recipesEntries.length === 0 ? (
+          <div>No recipe yet</div>
+        ) : (
+          recipesEntries
+        )}
+      </List>
 
       <div className="fixed bottom-8 right-8">
         <Fab

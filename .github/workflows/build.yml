@@ -1,0 +1,29 @@
+name: Build and check application
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+      - name: install dependencies # TODO should consider caching
+        run: npm ci
+      - name: check formatting and linting
+        run: npm run lint
+      - name: build app
+        run: npm run build

@@ -1,15 +1,25 @@
-import { asyncThunkCreator, buildCreateSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
+import {
+  asyncThunkCreator,
+  buildCreateSlice,
+  createAsyncThunk,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import type { Recipe } from "../models/recipe";
 import type { RootState } from "./store";
-import { addItem, openDatabase, readAll, RECIPE_OBJECT_STORE_NAME } from "../services/databaseManager";
+import {
+  addItem,
+  openDatabase,
+  readAll,
+  RECIPE_OBJECT_STORE_NAME,
+} from "../services/databaseManager";
 
 export const retrieveRecipes = createAsyncThunk(
   "recipe/retrieveRecipes",
   async () => {
     await openDatabase();
     return await readAll<Recipe>(RECIPE_OBJECT_STORE_NAME);
-  }
-)
+  },
+);
 
 export const addRecipe = createAsyncThunk(
   "recipe/addRecipe",
@@ -17,7 +27,8 @@ export const addRecipe = createAsyncThunk(
     await openDatabase();
     await addItem<Recipe>(RECIPE_OBJECT_STORE_NAME, recipe);
     return recipe;
-  });
+  },
+);
 
 export const RecipeSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -55,4 +66,5 @@ export const RecipeSlice = buildCreateSlice({
 });
 
 export const selectRecipes = (state: RootState) => state.recipe.recipes;
-export const selectNeedsLoading = (state: RootState) => state.recipe.loaded === false && state.recipe.loading === false;
+export const selectNeedsLoading = (state: RootState) =>
+  state.recipe.loaded === false && state.recipe.loading === false;

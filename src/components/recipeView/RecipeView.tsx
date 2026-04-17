@@ -43,9 +43,7 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
             </Typography>
           </Toolbar>
         </AppBar>
-        <div className="p-2">
-          This recipe doesn't exist!
-        </div>
+        <div className="p-2">This recipe doesn't exist!</div>
       </div>
     );
   }
