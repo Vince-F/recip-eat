@@ -2,12 +2,12 @@ import {
   asyncThunkCreator,
   buildCreateSlice,
   createAsyncThunk,
-  type PayloadAction,
 } from "@reduxjs/toolkit";
 import type { Recipe } from "../models/recipe";
 import type { RootState } from "./store";
 import {
   addItem,
+  deleteItem,
   openDatabase,
   readAll,
   RECIPE_OBJECT_STORE_NAME,
@@ -30,6 +30,15 @@ export const addRecipe = createAsyncThunk(
   },
 );
 
+export const deleteRecipe = createAsyncThunk(
+  "recipe/deleteRecipe",
+  async (recipeId: string) => {
+    await openDatabase();
+    await deleteItem(RECIPE_OBJECT_STORE_NAME, recipeId);
+    return recipeId;
+  },
+);
+
 export const RecipeSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
 })({
@@ -41,9 +50,6 @@ export const RecipeSlice = buildCreateSlice({
     error: null as string | null,
   },
   reducers: {
-    addRecipe(state, action: PayloadAction<Recipe>) {
-      state.recipes.push(action.payload);
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -61,6 +67,9 @@ export const RecipeSlice = buildCreateSlice({
       })
       .addCase(addRecipe.fulfilled, (state, action) => {
         state.recipes.push(action.payload);
+      })
+      .addCase(deleteRecipe.fulfilled, (state, action) => {
+        state.recipes = state.recipes.filter((r) => r.id !== action.payload);
       });
   },
 });

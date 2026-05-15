@@ -5,26 +5,21 @@ import {
   CardContent,
   Divider,
   IconButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material";
 import type { Recipe } from "../../models/recipe";
-import { ArrowBack, Delete, MoreVert, Share, Star } from "@mui/icons-material";
-import { useState } from "react";
+import { ArrowBack } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { getIngredientById } from "../../services/ingredientsHelper";
 import type { QuantityType } from "../../models/quantityType";
+import { RecipeActionsMenu } from "./RecipeActionsMenu";
 
 interface ReceipeViewProps {
   recipe: Recipe | undefined;
 }
 
 export function RecipeView({ recipe }: ReceipeViewProps) {
-  const [menuButton, setMenuButton] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
 
   if (!recipe) {
@@ -84,20 +79,6 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
     }
   }
 
-  function openMenu(event: React.MouseEvent<HTMLElement>) {
-    setMenuButton(event.currentTarget);
-  }
-
-  function closeMenu() {
-    setMenuButton(null);
-  }
-
-  function toggleFavorite() {}
-
-  function shareRecipe() {}
-
-  function deleteRecipe() {}
-
   function goBackToRecipeList() {
     navigate("/");
   }
@@ -115,46 +96,7 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
           <Typography variant="h6" component="h1" className="flex-1">
             {recipe.title}
           </Typography>
-          <IconButton
-            aria-label="More actions"
-            id={`moreButton${recipe.id}`}
-            aria-controls={menuButton ? `moreMenu${recipe.id}` : undefined}
-            aria-haspopup="true"
-            aria-expanded={menuButton ? "true" : "false"}
-            onClick={openMenu}
-          >
-            <MoreVert />
-          </IconButton>
-          <Menu
-            id={`moreMenu${recipe.id}`}
-            anchorEl={menuButton}
-            open={Boolean(menuButton)}
-            slotProps={{
-              list: {
-                "aria-labelledby": `moreButton${recipe.id}`,
-              },
-            }}
-            onClose={closeMenu}
-          >
-            <MenuItem onClick={toggleFavorite}>
-              <ListItemIcon>
-                <Star />
-              </ListItemIcon>
-              <ListItemText>Set favorite</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={shareRecipe}>
-              <ListItemIcon>
-                <Share />
-              </ListItemIcon>
-              <ListItemText>Share</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={deleteRecipe}>
-              <ListItemIcon>
-                <Delete />
-              </ListItemIcon>
-              <ListItemText>Delete</ListItemText>
-            </MenuItem>
-          </Menu>
+          <RecipeActionsMenu recipe={recipe} redirectAfterDelete={true} />
         </Toolbar>
       </AppBar>
 

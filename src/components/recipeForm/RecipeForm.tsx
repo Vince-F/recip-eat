@@ -25,6 +25,8 @@ import { v4 as uuidv4 } from "uuid";
 
 export function RecipeForm() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [preparationTime, setPreparationTime] = useState(0);
   const [cookingTime, setCookingTime] = useState(0);
@@ -48,8 +50,6 @@ export function RecipeForm() {
     [],
   );
   const stepsInputsRef = useRef<Array<HTMLInputElement | null>>([]);
-
-  const navigate = useNavigate();
 
   const stepFields = steps.map((step, index) => {
     return (
