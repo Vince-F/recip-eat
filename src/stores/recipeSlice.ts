@@ -49,8 +49,7 @@ export const RecipeSlice = buildCreateSlice({
     loaded: false,
     error: null as string | null,
   },
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(retrieveRecipes.pending, (state) => {
