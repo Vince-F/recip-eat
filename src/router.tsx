@@ -1,5 +1,5 @@
 import { createBrowserRouter, useLoaderData } from "react-router";
-import { ReceipesList } from "./components/receipesList/ReceipesList";
+import { RecipesList } from "./components/recipesList/RecipesList";
 import type { Recipe } from "./models/recipe";
 import { RecipeView } from "./components/recipeView/RecipeView";
 import { RecipeForm } from "./components/recipeForm/RecipeForm";
@@ -10,7 +10,7 @@ export const router = createBrowserRouter(
   [
     {
       path: "/",
-      Component: ReceipesList,
+      Component: RecipesList,
     },
     {
       path: "/recipe/:id",

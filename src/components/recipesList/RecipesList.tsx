@@ -33,7 +33,7 @@ const recipes: Recipe[] = [
   },
 ];*/
 
-export function ReceipesList() {
+export function RecipesList() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const recipes = useAppSelector(selectRecipes);
@@ -44,7 +44,7 @@ export function ReceipesList() {
   }
 
   const recipesEntries = recipes.map((recipe) => (
-    <RecipeListEntry key={recipe.id} recipe={recipe} />
+    <RecipeListEntry data-test={"recipe-entry-"+recipe.id} key={recipe.id} recipe={recipe} />
   ));
 
   function goToCreateRecipe() {
@@ -52,15 +52,15 @@ export function ReceipesList() {
   }
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" data-test="recipes-list-header">
         <Toolbar>
           <Typography variant="h6" component="h1">
-            Receipes List
+            Recipes List
           </Typography>
         </Toolbar>
       </AppBar>
 
-      <List>
+      <List data-test="recipes-list">
         {recipesEntries.length === 0 ? (
           <div>No recipe yet</div>
         ) : (
@@ -70,6 +70,7 @@ export function ReceipesList() {
 
       <div className="fixed bottom-8 right-8">
         <Fab
+          data-test="create-recipe-button"
           component="a"
           color="primary"
           aria-label="add"

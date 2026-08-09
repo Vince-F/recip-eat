@@ -21,12 +21,12 @@ export function RecipeListEntry({ recipe }: RecipeListEntryProps) {
   }
 
   return (
-    <ListItem secondaryAction={<RecipeActionsMenu recipe={recipe} />}>
-      <ListItemButton component="a" onClick={() => goToRecipe(recipe.id)}>
+    <ListItem data-test={"recipe-entry-" + recipe.id} secondaryAction={<RecipeActionsMenu data-test="recipe-actions-menu" recipe={recipe} />}>
+      <ListItemButton data-test="select-recipe-button" component="a" onClick={() => goToRecipe(recipe.id)}>
         <ListItemAvatar>
           <Avatar alt={recipe.title} src={recipe.image} variant="square" />
         </ListItemAvatar>
-        <ListItemText primary={recipe.title} />
+        <ListItemText data-test="recipe-name" primary={recipe.title} />
       </ListItemButton>
     </ListItem>
   );
