@@ -15,7 +15,7 @@ export class RecipeListEntryElement {
     return this.root.locator("[data-test='select-recipe-button']");
   }
 
-  get actionsMenu() {
-    return this.root.locator("[data-test='recipe-actions-menu']");
+  get actionsMenuButton() {
+    return this.root.locator("[data-test='recipe-actions-menu-button']");
   }
 }

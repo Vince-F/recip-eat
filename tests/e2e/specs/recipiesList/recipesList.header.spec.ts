@@ -15,7 +15,7 @@ test.describe("Recipes list - Header" , () => {
       .analyze();
 
     await expect(header).toBeVisible();
-    await expect(accessibilityScanResults.violations).toEqual([]);
+    expect(accessibilityScanResults.violations).toEqual([]);
     await expect(header).toMatchAriaSnapshot();
     await expect(header).toHaveScreenshot();
   });

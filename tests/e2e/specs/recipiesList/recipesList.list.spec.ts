@@ -39,9 +39,9 @@ test.describe("Recipes list - List content", () => {
     const indexedDbHelper = new IndexedDbHelper(page, "recipiesDB", "recipes");
     await indexedDbHelper.cleanAllObjectStores();
     await indexedDbHelper.addItems([
-      { id: recipeId1, name: recipeName1 },
-      { id: recipeId2, name: recipeName2 },
-      { id: recipeId3, name: recipeName3 }
+      { id: recipeId1, title: recipeName1 },
+      { id: recipeId2, title: recipeName2 },
+      { id: recipeId3, title: recipeName3 }
     ]);
     await page.reload();
 
@@ -79,9 +79,9 @@ test.describe("Recipes list - List content", () => {
 
     const indexedDbHelper = new IndexedDbHelper(page, "recipiesDB", "recipes");
     await indexedDbHelper.addItems([
-      { id: recipeId1, name: recipeName1 },
-      { id: recipeId2, name: recipeName2 },
-      { id: recipeId3, name: recipeName3 }
+      { id: recipeId1, title: recipeName1 },
+      { id: recipeId2, title: recipeName2 },
+      { id: recipeId3, title: recipeName3 }
     ]);
     await page.reload();
 
@@ -106,9 +106,9 @@ test.describe("Recipes list - List content", () => {
 
     const indexedDbHelper = new IndexedDbHelper(page, "recipiesDB", "recipes");
     await indexedDbHelper.addItems([
-      { id: recipeId1, name: recipeName1 },
-      { id: recipeId2, name: recipeName2 },
-      { id: recipeId3, name: recipeName3 }
+      { id: recipeId1, title: recipeName1 },
+      { id: recipeId2, title: recipeName2 },
+      { id: recipeId3, title: recipeName3 }
     ]);
     await page.reload();
 
