@@ -1,0 +1,5 @@
+- heading "Ingredients" [level=2]
+- list:
+  - listitem: /\d+ x ingredient\.tomato/
+  - listitem: 42L ingredient.olive_oil
+  - listitem: 3g ingredient.salt
