@@ -1,5 +1,5 @@
 import "./App.css";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { RouterProvider } from "react-router";
 import { router } from "./router";
 import { StrictMode } from "react";
@@ -17,6 +17,7 @@ function App() {
     <StrictMode>
       <Provider store={store}>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <RouterProvider router={router} />
         </ThemeProvider>
       </Provider>

@@ -21,7 +21,7 @@ export function RecipeListEntry({ recipe }: RecipeListEntryProps) {
   }
 
   return (
-    <ListItem data-test={"recipe-entry-" + recipe.id} secondaryAction={<RecipeActionsMenu data-test="recipe-actions-menu" recipe={recipe} />}>
+    <ListItem data-test={"recipe-entry-" + recipe.id} secondaryAction={<RecipeActionsMenu data-test="recipe-actions-menu-button" recipe={recipe} />}>
       <ListItemButton data-test="select-recipe-button" component="a" onClick={() => goToRecipe(recipe.id)}>
         <ListItemAvatar>
           <Avatar alt={recipe.title} src={recipe.image} variant="square" />
