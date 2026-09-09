@@ -44,7 +44,11 @@ export function RecipesList() {
   }
 
   const recipesEntries = recipes.map((recipe) => (
-    <RecipeListEntry data-test={"recipe-entry-"+recipe.id} key={recipe.id} recipe={recipe} />
+    <RecipeListEntry
+      data-test={"recipe-entry-" + recipe.id}
+      key={recipe.id}
+      recipe={recipe}
+    />
   ));
 
   function goToCreateRecipe() {

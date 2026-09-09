@@ -1,10 +1,12 @@
 import { test, expect } from "@playwright/test";
-import AxeBuilder from '@axe-core/playwright';
+import AxeBuilder from "@axe-core/playwright";
 import { RecipesListPage } from "../pageObjectModel/recipesList/recipesListPage";
 import { IndexedDbHelper } from "../helpers/indexedDbHelper";
 
 test.describe("Recipes list - List content", () => {
-  test("should display that there is not recipe when list is empty", async ({ page }) => {
+  test("should display that there is not recipe when list is empty", async ({
+    page,
+  }) => {
     const recipesListPage = new RecipesListPage(page);
     await recipesListPage.goTo();
 
@@ -41,7 +43,7 @@ test.describe("Recipes list - List content", () => {
     await indexedDbHelper.addItems([
       { id: recipeId1, title: recipeName1 },
       { id: recipeId2, title: recipeName2 },
-      { id: recipeId3, title: recipeName3 }
+      { id: recipeId3, title: recipeName3 },
     ]);
     await page.reload();
 
@@ -49,9 +51,12 @@ test.describe("Recipes list - List content", () => {
     await list.waitFor();
 
     const numberOfEntries = (await recipesListPage.recipeEntries.all()).length;
-    const recipeEntry1Name = await recipesListPage.getRecipeEntry(recipeId1).name;
-    const recipeEntry2Name = await recipesListPage.getRecipeEntry(recipeId2).name;
-    const recipeEntry3Name = await recipesListPage.getRecipeEntry(recipeId3).name;
+    const recipeEntry1Name =
+      await recipesListPage.getRecipeEntry(recipeId1).name;
+    const recipeEntry2Name =
+      await recipesListPage.getRecipeEntry(recipeId2).name;
+    const recipeEntry3Name =
+      await recipesListPage.getRecipeEntry(recipeId3).name;
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .include(RecipesListPage.listSelector)
@@ -66,7 +71,9 @@ test.describe("Recipes list - List content", () => {
     await expect(list).toMatchAriaSnapshot();
   });
 
-  test("should open the recipe detail page when clicking on a recipe entry", async ({ page }) => {
+  test("should open the recipe detail page when clicking on a recipe entry", async ({
+    page,
+  }) => {
     const recipeId1 = "6daf90b4-264b-4cd1-b76d-102bdbe172f4";
     const recipeName1 = "Recipe 1";
     const recipeId2 = "2c9b648c-ce58-4f1d-b2a3-26b3e012e1a6";
@@ -81,7 +88,7 @@ test.describe("Recipes list - List content", () => {
     await indexedDbHelper.addItems([
       { id: recipeId1, title: recipeName1 },
       { id: recipeId2, title: recipeName2 },
-      { id: recipeId3, title: recipeName3 }
+      { id: recipeId3, title: recipeName3 },
     ]);
     await page.reload();
 
@@ -93,7 +100,9 @@ test.describe("Recipes list - List content", () => {
     await expect(page).toHaveURL(`/recip-eat/recipe/${recipeId2}`);
   });
 
-  test("should open the recipe creation page when clicking on the create recipe button", async ({ page }) => {
+  test("should open the recipe creation page when clicking on the create recipe button", async ({
+    page,
+  }) => {
     const recipeId1 = "6daf90b4-264b-4cd1-b76d-102bdbe172f4";
     const recipeName1 = "Recipe 1";
     const recipeId2 = "2c9b648c-ce58-4f1d-b2a3-26b3e012e1a6";
@@ -108,7 +117,7 @@ test.describe("Recipes list - List content", () => {
     await indexedDbHelper.addItems([
       { id: recipeId1, title: recipeName1 },
       { id: recipeId2, title: recipeName2 },
-      { id: recipeId3, title: recipeName3 }
+      { id: recipeId3, title: recipeName3 },
     ]);
     await page.reload();
 

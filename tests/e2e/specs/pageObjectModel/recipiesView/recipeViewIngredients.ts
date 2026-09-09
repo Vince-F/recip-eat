@@ -13,7 +13,9 @@ export class RecipeViewIngredients {
   }
 
   get ingredientListChildrenNumber() {
-    return this.ingredientList.locator("[data-test^='recipe-ingredient-']").count();
+    return this.ingredientList
+      .locator("[data-test^='recipe-ingredient-']")
+      .count();
   }
 
   getIngredientEntry(index: number) {

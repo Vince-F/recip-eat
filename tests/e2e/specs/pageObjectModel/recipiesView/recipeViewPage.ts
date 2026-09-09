@@ -7,7 +7,8 @@ import { RecipeViewTime } from "./recipeViewTime";
 export class RecipeViewPage {
   static readonly headerSelector = "[data-test='recipes-list-header']";
   static readonly listSelector = "[data-test='recipes-list']";
-  static readonly recipeNotFoundContentSelector = "[data-test='recipe-not-found-content']";
+  static readonly recipeNotFoundContentSelector =
+    "[data-test='recipe-not-found-content']";
 
   constructor(readonly page: Page) {}
 

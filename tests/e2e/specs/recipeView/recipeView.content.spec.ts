@@ -1,13 +1,15 @@
 import { test, expect } from "@playwright/test";
-import AxeBuilder from '@axe-core/playwright';
+import AxeBuilder from "@axe-core/playwright";
 import { RecipeViewPage } from "../pageObjectModel/recipiesView/recipeViewPage";
 import { IndexedDbHelper } from "../helpers/indexedDbHelper";
 import { RecipeViewTime } from "../pageObjectModel/recipiesView/recipeViewTime";
 import { RecipeViewIngredients } from "../pageObjectModel/recipiesView/recipeViewIngredients";
 import { RecipeViewSteps } from "../pageObjectModel/recipiesView/recipeViewSteps";
 
-test.describe("Recipe view - Content" , () => {
-  test("should display non existing for non existing recipe", async ({ page }) => {
+test.describe("Recipe view - Content", () => {
+  test("should display non existing for non existing recipe", async ({
+    page,
+  }) => {
     const recipeViewPage = new RecipeViewPage(page);
     await recipeViewPage.goTo("non-existing-recipe-id");
 
@@ -19,7 +21,9 @@ test.describe("Recipe view - Content" , () => {
 
     await expect(recipeViewPage.recipeNotFoundContent).toBeVisible();
     expect(accessibilityScanResults.violations).toEqual([]);
-    expect(recipeViewPage.recipeNotFoundContent).toHaveText("This recipe doesn't exist!");
+    expect(recipeViewPage.recipeNotFoundContent).toHaveText(
+      "This recipe doesn't exist!",
+    );
     await expect(recipeViewPage.recipeNotFoundContent).toMatchAriaSnapshot();
     await expect(recipeViewPage.recipeNotFoundContent).toHaveScreenshot();
   });
@@ -33,7 +37,12 @@ test.describe("Recipe view - Content" , () => {
     const indexedDbHelper = new IndexedDbHelper(page, "recipiesDB", "recipes");
     await indexedDbHelper.cleanAllObjectStores();
     await indexedDbHelper.addItems([
-      { id: recipeId, title: recipeName, preparationTimeMinutes: 10, cookingTimeMinutes: 20 }
+      {
+        id: recipeId,
+        title: recipeName,
+        preparationTimeMinutes: 10,
+        cookingTimeMinutes: 20,
+      },
     ]);
     await page.reload();
 
@@ -61,11 +70,21 @@ test.describe("Recipe view - Content" , () => {
     const indexedDbHelper = new IndexedDbHelper(page, "recipiesDB", "recipes");
     await indexedDbHelper.cleanAllObjectStores();
     await indexedDbHelper.addItems([
-      { id: recipeId, title: recipeName, ingredients: [
-        { ingredientId: "9d7290e4-d437-478b-bec4-9b2af4180cb6", quantity: 125 },
-        { ingredientId: "aa2729bf-9436-4d63-8591-8827e7fe9760", quantity: 42 },
-        { ingredientId: "c74bfdfb-89e1-4712-a0b6-a0e79b6da59f", quantity: 3 }
-      ]}
+      {
+        id: recipeId,
+        title: recipeName,
+        ingredients: [
+          {
+            ingredientId: "9d7290e4-d437-478b-bec4-9b2af4180cb6",
+            quantity: 125,
+          },
+          {
+            ingredientId: "aa2729bf-9436-4d63-8591-8827e7fe9760",
+            quantity: 42,
+          },
+          { ingredientId: "c74bfdfb-89e1-4712-a0b6-a0e79b6da59f", quantity: 3 },
+        ],
+      },
     ]);
     await page.reload();
 
@@ -79,9 +98,15 @@ test.describe("Recipe view - Content" , () => {
     await expect(ingredientsContent.root).toBeVisible();
     expect(accessibilityScanResults.violations).toEqual([]);
     expect(await ingredientsContent.ingredientListChildrenNumber).toEqual(3);
-    expect(ingredientsContent.getIngredientEntry(0)).toHaveText("125 x ingredient.tomato");
-    expect(ingredientsContent.getIngredientEntry(1)).toHaveText("42L ingredient.olive_oil");
-    expect(ingredientsContent.getIngredientEntry(2)).toHaveText("3g ingredient.salt");
+    expect(ingredientsContent.getIngredientEntry(0)).toHaveText(
+      "125 x ingredient.tomato",
+    );
+    expect(ingredientsContent.getIngredientEntry(1)).toHaveText(
+      "42L ingredient.olive_oil",
+    );
+    expect(ingredientsContent.getIngredientEntry(2)).toHaveText(
+      "3g ingredient.salt",
+    );
     await expect(ingredientsContent.root).toMatchAriaSnapshot();
     await expect(ingredientsContent.root).toHaveScreenshot();
   });
@@ -98,11 +123,7 @@ test.describe("Recipe view - Content" , () => {
     const indexedDbHelper = new IndexedDbHelper(page, "recipiesDB", "recipes");
     await indexedDbHelper.cleanAllObjectStores();
     await indexedDbHelper.addItems([
-      { id: recipeId, title: recipeName, steps: [
-        step1,
-        step2,
-        step3
-      ]}
+      { id: recipeId, title: recipeName, steps: [step1, step2, step3] },
     ]);
     await page.reload();
 

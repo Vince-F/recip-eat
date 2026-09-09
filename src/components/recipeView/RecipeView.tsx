@@ -34,7 +34,12 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
             >
               <ArrowBack />
             </IconButton>
-            <Typography data-test="recipe-title" variant="h6" component="h1" className="flex-1">
+            <Typography
+              data-test="recipe-title"
+              variant="h6"
+              component="h1"
+              className="flex-1"
+            >
               Recipe not found
             </Typography>
           </Toolbar>
@@ -56,7 +61,11 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
     (ingredientEntry, index) => {
       const ingredient = getIngredientById(ingredientEntry.ingredientId);
       return (
-        <li className="flex gap-4 items-center mb-4" data-test={`recipe-ingredient-${index}`} key={index}>
+        <li
+          className="flex gap-4 items-center mb-4"
+          data-test={`recipe-ingredient-${index}`}
+          key={index}
+        >
           <Avatar alt="" src={ingredient?.image} variant="rounded" />
           {getQuantityText(
             ingredient?.key ?? "",
@@ -100,14 +109,22 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
           >
             <ArrowBack />
           </IconButton>
-          <Typography data-test="recipe-title" variant="h6" component="h1" className="flex-1">
+          <Typography
+            data-test="recipe-title"
+            variant="h6"
+            component="h1"
+            className="flex-1"
+          >
             {recipe.title}
           </Typography>
           <RecipeActionsMenu recipe={recipe} redirectAfterDelete={true} />
         </Toolbar>
       </AppBar>
 
-      <div className="flex justify-center m-4 text-center" data-test="recipe-time-content">
+      <div
+        className="flex justify-center m-4 text-center"
+        data-test="recipe-time-content"
+      >
         <Card className="m-4 flex-1" variant="outlined">
           <CardContent data-test="recipe-preparation-time-content">
             <Typography variant="h5" component="div">
@@ -141,7 +158,11 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
 
       <Divider />
 
-      <div className="p-4" data-test="recipe-steps-content" data-testid="recipe-steps-content">
+      <div
+        className="p-4"
+        data-test="recipe-steps-content"
+        data-testid="recipe-steps-content"
+      >
         <Typography variant="h4" component="h2" className="m-4">
           Steps
         </Typography>

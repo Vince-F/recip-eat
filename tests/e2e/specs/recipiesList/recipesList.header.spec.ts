@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
-import AxeBuilder from '@axe-core/playwright';
+import AxeBuilder from "@axe-core/playwright";
 import { RecipesListPage } from "../pageObjectModel/recipesList/recipesListPage";
 
-test.describe("Recipes list - Header" , () => {
+test.describe("Recipes list - Header", () => {
   test("should display the header", async ({ page }) => {
     const recipesListPage = new RecipesListPage(page);
     await recipesListPage.goTo();

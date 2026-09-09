@@ -1,7 +1,10 @@
 import { type Page } from "@playwright/test";
 
 export class RecipeListEntryElement {
-  constructor(readonly page: Page, readonly recipeId: string) {}
+  constructor(
+    readonly page: Page,
+    readonly recipeId: string,
+  ) {}
 
   get root() {
     return this.page.locator(`[data-test='recipe-entry-${this.recipeId}']`);
