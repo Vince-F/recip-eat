@@ -58,6 +58,7 @@ export function RecipeActionsMenu({
         aria-haspopup="true"
         aria-expanded={menuButton ? "true" : "false"}
         onClick={openMenu}
+        data-test="recipe-actions-menu-button"
       >
         <MoreVert />
       </IconButton>
