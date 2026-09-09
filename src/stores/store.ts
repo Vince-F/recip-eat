@@ -1,6 +1,9 @@
-import { configureStore, type Action, type ThunkAction } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  type Action,
+  type ThunkAction,
+} from "@reduxjs/toolkit";
 import { RecipeSlice } from "./recipeSlice";
-
 
 function createStore() {
   return configureStore({
@@ -17,13 +20,13 @@ function createStore() {
 export const store = createStore();
 
 export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore['getState']>
+export type RootState = ReturnType<AppStore["getState"]>;
 // Infer the `AppDispatch` type from the store itself
-export type AppDispatch = AppStore['dispatch']
+export type AppDispatch = AppStore["dispatch"];
 // Define a reusable type describing thunk functions
 export type AppThunk<ThunkReturnType = void> = ThunkAction<
   ThunkReturnType,
   RootState,
   unknown,
   Action
->
+>;

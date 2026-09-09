@@ -14,7 +14,9 @@ export function openDatabase() {
 
     request.onupgradeneeded = () => {
       const db = request.result;
-      const recipeStore = db.createObjectStore(RECIPE_OBJECT_STORE_NAME, { keyPath: "id" });
+      const recipeStore = db.createObjectStore(RECIPE_OBJECT_STORE_NAME, {
+        keyPath: "id",
+      });
       recipeStore.createIndex("title", "title", { unique: false });
 
       recipeStore.transaction.oncomplete = () => {
@@ -68,7 +70,7 @@ export function addItem<T>(storeName: string, item: T): Promise<void> {
     };
     const objectStore = transaction.objectStore(storeName);
     const request = objectStore.add(item);
-    
+
     request.onerror = () => {
       reject(request.error?.message);
     };

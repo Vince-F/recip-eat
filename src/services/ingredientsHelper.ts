@@ -9,7 +9,9 @@ export function getIngredientById(id: string): Ingredient | undefined {
   if (cachedFoundIngredients.has(id)) {
     return cachedFoundIngredients.get(id);
   }
-  const result = (ingredients.find(ingredient => ingredient.id === id)) as Ingredient | undefined;
+  const result = ingredients.find((ingredient) => ingredient.id === id) as
+    | Ingredient
+    | undefined;
   if (result) {
     cachedFoundIngredients.set(id, result);
   }
@@ -18,10 +20,10 @@ export function getIngredientById(id: string): Ingredient | undefined {
 
 export function findIngredientsMatching(query: string): Ingredient[] {
   // TODO we should use translated key here
-  return (ingredients as Ingredient[]).filter(ingredient =>
+  return (ingredients as Ingredient[]).filter((ingredient) =>
     ingredient.key
       .replace("ingredient.", "")
       .toLowerCase()
-      .includes(query.toLowerCase())
+      .includes(query.toLowerCase()),
   );
 }

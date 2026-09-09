@@ -2,12 +2,17 @@ import { AppBar, Fab, List, Toolbar, Typography } from "@mui/material";
 import { RecipeListEntry } from "./RecipeListEntry";
 import { Add } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import { retrieveRecipes, selectNeedsLoading, selectRecipes } from "../../stores/recipeSlice";
+import {
+  retrieveRecipes,
+  selectNeedsLoading,
+  selectRecipes,
+} from "../../stores/recipeSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
+// import type { Recipe } from "../../models/recipe";
 
 /* test data */
 /*
-const recipes: RecipeOverview[] = [
+const recipes: Recipe[] = [
   {
     id: "1",
     title: "Spaghetti Bolognese",
@@ -28,7 +33,7 @@ const recipes: RecipeOverview[] = [
   },
 ];*/
 
-export function ReceipesList() {
+export function RecipesList() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const recipes = useAppSelector(selectRecipes);
@@ -39,7 +44,11 @@ export function ReceipesList() {
   }
 
   const recipesEntries = recipes.map((recipe) => (
-    <RecipeListEntry key={recipe.id} recipe={recipe} />
+    <RecipeListEntry
+      data-test={"recipe-entry-" + recipe.id}
+      key={recipe.id}
+      recipe={recipe}
+    />
   ));
 
   function goToCreateRecipe() {
@@ -47,18 +56,25 @@ export function ReceipesList() {
   }
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="static" data-test="recipes-list-header">
         <Toolbar>
           <Typography variant="h6" component="h1">
-            Receipes List
+            Recipes List
           </Typography>
         </Toolbar>
       </AppBar>
-      
-      <List>{recipesEntries.length === 0 ? (<div>No recipe yet</div>) : recipesEntries}</List>
+
+      <List data-test="recipes-list">
+        {recipesEntries.length === 0 ? (
+          <div>No recipe yet</div>
+        ) : (
+          recipesEntries
+        )}
+      </List>
 
       <div className="fixed bottom-8 right-8">
         <Fab
+          data-test="create-recipe-button"
           component="a"
           color="primary"
           aria-label="add"

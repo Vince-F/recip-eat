@@ -5,45 +5,46 @@ import {
   CardContent,
   Divider,
   IconButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material";
 import type { Recipe } from "../../models/recipe";
-import { ArrowBack, Delete, MoreVert, Share, Star } from "@mui/icons-material";
-import { useState } from "react";
+import { ArrowBack } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { getIngredientById } from "../../services/ingredientsHelper";
 import type { QuantityType } from "../../models/quantityType";
+import { RecipeActionsMenu } from "./RecipeActionsMenu";
 
 interface ReceipeViewProps {
   recipe: Recipe | undefined;
 }
 
 export function RecipeView({ recipe }: ReceipeViewProps) {
-  const [menuButton, setMenuButton] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
 
   if (!recipe) {
     return (
       <div>
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar data-test="recipe-view-header">
             <IconButton
+              data-test="back-to-recipe-list-button"
               aria-label="Back to recipe list"
               onClick={goBackToRecipeList}
             >
               <ArrowBack />
             </IconButton>
-            <Typography variant="h6" component="h1" className="flex-1">
+            <Typography
+              data-test="recipe-title"
+              variant="h6"
+              component="h1"
+              className="flex-1"
+            >
               Recipe not found
             </Typography>
           </Toolbar>
         </AppBar>
-        <div className="p-2">
+        <div className="p-2" data-test="recipe-not-found-content">
           This recipe doesn't exist!
         </div>
       </div>
@@ -51,13 +52,20 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
   }
 
   const steps = (recipe.steps ?? []).map((step, index) => (
-    <li key={index}>{step}</li>
+    <li key={index} data-test={`recipe-step-${index}`}>
+      {step}
+    </li>
   ));
+
   const ingredients = (recipe.ingredients ?? []).map(
     (ingredientEntry, index) => {
       const ingredient = getIngredientById(ingredientEntry.ingredientId);
       return (
-        <li className="flex gap-4 items-center mb-4" key={index}>
+        <li
+          className="flex gap-4 items-center mb-4"
+          data-test={`recipe-ingredient-${index}`}
+          key={index}
+        >
           <Avatar alt="" src={ingredient?.image} variant="rounded" />
           {getQuantityText(
             ingredient?.key ?? "",
@@ -86,20 +94,6 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
     }
   }
 
-  function openMenu(event: React.MouseEvent<HTMLElement>) {
-    setMenuButton(event.currentTarget);
-  }
-
-  function closeMenu() {
-    setMenuButton(null);
-  }
-
-  function toggleFavorite() {}
-
-  function shareRecipe() {}
-
-  function deleteRecipe() {}
-
   function goBackToRecipeList() {
     navigate("/");
   }
@@ -107,62 +101,32 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar data-test="recipe-view-header">
           <IconButton
+            data-test="back-to-recipe-list-button"
             aria-label="Back to recipe list"
             onClick={goBackToRecipeList}
           >
             <ArrowBack />
           </IconButton>
-          <Typography variant="h6" component="h1" className="flex-1">
+          <Typography
+            data-test="recipe-title"
+            variant="h6"
+            component="h1"
+            className="flex-1"
+          >
             {recipe.title}
           </Typography>
-          <IconButton
-            aria-label="More actions"
-            id={`moreButton${recipe.id}`}
-            aria-controls={menuButton ? `moreMenu${recipe.id}` : undefined}
-            aria-haspopup="true"
-            aria-expanded={menuButton ? "true" : "false"}
-            onClick={openMenu}
-          >
-            <MoreVert />
-          </IconButton>
-          <Menu
-            id={`moreMenu${recipe.id}`}
-            anchorEl={menuButton}
-            open={Boolean(menuButton)}
-            slotProps={{
-              list: {
-                "aria-labelledby": `moreButton${recipe.id}`,
-              },
-            }}
-            onClose={closeMenu}
-          >
-            <MenuItem onClick={toggleFavorite}>
-              <ListItemIcon>
-                <Star />
-              </ListItemIcon>
-              <ListItemText>Set favorite</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={shareRecipe}>
-              <ListItemIcon>
-                <Share />
-              </ListItemIcon>
-              <ListItemText>Share</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={deleteRecipe}>
-              <ListItemIcon>
-                <Delete />
-              </ListItemIcon>
-              <ListItemText>Delete</ListItemText>
-            </MenuItem>
-          </Menu>
+          <RecipeActionsMenu recipe={recipe} redirectAfterDelete={true} />
         </Toolbar>
       </AppBar>
 
-      <div className="flex justify-center m-4 text-center">
+      <div
+        className="flex justify-center m-4 text-center"
+        data-test="recipe-time-content"
+      >
         <Card className="m-4 flex-1" variant="outlined">
-          <CardContent>
+          <CardContent data-test="recipe-preparation-time-content">
             <Typography variant="h5" component="div">
               Preparation time
             </Typography>
@@ -170,7 +134,7 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
           </CardContent>
         </Card>
         <Card className="m-4 flex-1" variant="outlined">
-          <CardContent>
+          <CardContent data-test="recipe-cooking-time-content">
             <Typography variant="h5" component="div">
               Cooking time
             </Typography>
@@ -181,23 +145,31 @@ export function RecipeView({ recipe }: ReceipeViewProps) {
 
       <Divider />
 
-      <div className="p-4">
+      <div className="p-4" data-test="recipe-ingredients-content">
         <Typography variant="h4" component="h2" className="m-4">
           Ingredients
         </Typography>
         <div className="m-4">
-          <ul className="list-none">{ingredients}</ul>
+          <ul className="list-none" data-test="recipe-ingredients-list">
+            {ingredients}
+          </ul>
         </div>
       </div>
 
       <Divider />
 
-      <div className="p-4">
+      <div
+        className="p-4"
+        data-test="recipe-steps-content"
+        data-testid="recipe-steps-content"
+      >
         <Typography variant="h4" component="h2" className="m-4">
           Steps
         </Typography>
         <div className="m-4">
-          <ol className="list-decimal">{steps}</ol>
+          <ol className="list-decimal" data-test="recipe-steps-list">
+            {steps}
+          </ol>
         </div>
       </div>
     </div>
